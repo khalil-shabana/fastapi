@@ -1,0 +1,29 @@
+
+services:
+  database:                          # service name = hostname on the network
+    image: postgres:18          # ready-made image, nothing to build
+    restart: unless-stopped          # come back up after a crash or reboot
+    environment:                     # settings the MySQL image expects
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - postgres-db:/var/lib/postgresql
+  api:
+    build: .                         # build from the Dockerfile in this folder
+    restart: unless-stopped
+    env_file: .env                   # same job as --env-file
+    ports:
+      - "127.0.0.1:8000:8000"       # laptop port : container port
+    depends_on:
+      - database                     # start the database first
+    volumes:
+      - ./:/app:ro
+    command: fastapi run --reload    # restart the server when code in ./ changes
+    environment:
+      WATCHFILES_FORCE_POLLING: "true"   # file-change events from a Windows drive don't reach the container; poll instead
+
+volumes:
+    postgres-db:                # named volume, survives container removal

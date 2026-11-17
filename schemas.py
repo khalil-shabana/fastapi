@@ -8,7 +8,7 @@ from typing import Optional, Literal
 class User(BaseModel):
     email:EmailStr
     password:str
-    
+    phone_num: Optional[str] = None
 class UserCreate(User):
     pass
 

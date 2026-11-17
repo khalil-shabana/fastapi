@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 from sqlalchemy.orm import Relationship
 from  database import *
 import models
@@ -41,7 +42,7 @@ class User(Base):
     email: Mapped[str] = mapped_column(nullable=True, unique=True)
     password: Mapped[str] = mapped_column(nullable=True)
     created_at: Mapped[datetime] = mapped_column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
-    phone_num: Mapped[str]
+    phone_num: Mapped[Optional[str]]
 
 class Vote(Base):
     __tablename__ = "votes"

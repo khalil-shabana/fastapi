@@ -34,7 +34,8 @@ async def get_user(user_id: int, db: Session = Depends(get_db)):
     return [user]
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
-async def create_user(user: schemas.UserCreate, db: Session = Depends(get_db), get_current_user: int = Depends(tokengen.get_current_user)):
+async def create_user(user: schemas.UserCreate, db: Session = Depends(get_db),
+                      get_current_user: int = Depends(tokengen.get_current_user)):
     
     print("Password length:", len(user.password))
     print("Password bytes:", len(user.password.encode("utf-8")))
