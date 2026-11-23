@@ -1,28 +1,27 @@
 name: build and Deploy Code
 
 on: [push, pull_request]
-  # push: #or pull or [push, pull_request]
-  #   branches:
-  #     - "main"
-  # pull_request:
+
 jobs:
   job1:
     runs-on: ubuntu-latest
     steps:
       - name: pulling git repo
-        uses: actions/checkout@v2
-      - name: install python version 3.13
-        uses: actions/setup-python@v2
+        uses: actions/checkout@v4
+
+      - name: install uv
+        uses: astral-sh/setup-uv@v4
         with:
-          python-version: "3.13"
-      - name: update pip
-        run: python -m pip install --upgrade pip
+          enable-cache: true
+
+      - name: install python version 3.13
+        run: uv python install 3.13
+
       - name: install all dependencies
-        run: |
-          uv sync --dev  
-          pip install -r requirements.txt
+        run: uv sync --dev
 
       - name: test with pytest
         run: uv run pytest
+
       - name: say hi to khalil
         run: echo "hello khalil"
