@@ -18,11 +18,11 @@ jobs:
       - name: update pip
         run: python -m pip install --upgrade pip
       - name: install all dependencies
-        run: pip install -r requirements.txt
+        run: |
+          uv sync --dev  
+          pip install -r requirements.txt
 
       - name: test with pytest
-        run: |
-          pip install pytest
-          pytest
+        run: uv run pytest
       - name: say hi to khalil
         run: echo "hello khalil"
