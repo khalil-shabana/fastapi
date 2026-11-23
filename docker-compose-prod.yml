@@ -1,0 +1,36 @@
+
+# services:
+#   database:                          # service name = hostname on the network
+#     image: postgres:18          # ready-made image, nothing to build
+#     restart: unless-stopped          # come back up after a crash or reboot
+#     environment:                     # settings the MySQL image expects
+#       POSTGRES_USER: ${DATABASE_USERNAME}
+#       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+#       POSTGRES_DB: ${DATABASE_NAME}
+#     ports:
+#       - "127.0.0.1:5433:5432"
+#     volumes:
+#       - postgres-db:/var/lib/postgresql
+#   api:
+#     image: awesome-api:1.0    # build from the Dockerfile in this folder
+#     restart: unless-stopped
+#     ports:
+#       - 80:8000       # laptop port : container port
+#     depends_on:
+#       - database                     # start the database first
+#     volumes:
+#       - ./:/app:ro
+#     #command: fastapi run --reload    # restart the server when code in ./ changes
+#     environment:                     # every setting config.py reads
+#       # ${VAR} values come from the shell or the .env file next to this compose file
+#       DATABASE_HOSTNAME: ${DATABASE_HOSTNAME}      # the database service name above
+#       DATABASE_PORT: ${DATABASE_PORT}              # Postgres port inside the Docker network
+#       DATABASE_USERNAME: ${DATABASE_USERNAME}
+#       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+#       DATABASE_NAME: ${DATABASE_NAME}
+#       SECRET_KEY: ${SECRET_KEY}
+#       ALGORITHM: ${ALGORITHM}
+#       ACCESS_TOKEN_EXPIRE_MIN: ${ACCESS_TOKEN_EXPIRE_MIN}
+
+# volumes:
+#     postgres-db:                # named volume, survives container removal

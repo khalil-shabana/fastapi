@@ -39,10 +39,10 @@ app.include_router(votes.router)
 
 templates = Jinja2Templates(directory="templates")
 
-@app.get("/", include_in_schema=False) # FastAPI uses decorators to register routes.
-async def home(request: Request):
+@app.get("/", include_in_schema=False, status_code=status.HTTP_200_OK) # FastAPI uses decorators to register routes.
+async def home():
     # return templates.TemplateResponse(request, "home.html", {"posts": posts})
-    return {"message":"Hello World sort of"}
+    return {"message":"Hello World!"}
 
 
 

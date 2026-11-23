@@ -22,3 +22,12 @@ dependencies = [
 
 [tool.fastapi]
 entrypoint = "main:app"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]      # let tests import modules from the project root
+testpaths = ["tests"]
