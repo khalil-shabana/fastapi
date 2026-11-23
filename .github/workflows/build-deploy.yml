@@ -4,17 +4,33 @@ on: [push, pull_request]
 
 jobs:
   job1:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: khalil
+          POSTGRES_DB: fastapi-course
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     env:
-      DATABASE_HOSTNAME: database
+      DATABASE_HOSTNAME: localhost
       DATABASE_PORT: 5432
+      DATABASE_USERNAME: postgres
       DATABASE_PASSWORD: khalil
       DATABASE_NAME: fastapi-course
-      DATABASE_USERNAME: postgres
-      SECRET_KEY: efdf0ee465e74d83e4302f3291b9f2de4c5c3aaf02911633b606bb024fb38e8c
+      SECRET_KEY: test-secret-key
       ALGORITHM: HS256
-      ACCESS_TOKEN_EXPIRE_MIN: 120
+      ACCESS_TOKEN_EXPIRE_MIN: 30
 
-    runs-on: ubuntu-latest
     steps:
       - name: pulling git repo
         uses: actions/checkout@v4
